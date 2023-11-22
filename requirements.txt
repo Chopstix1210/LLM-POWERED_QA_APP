@@ -1,6 +1,9 @@
 openai
+docx2txt
 langchain
 langchain_experimental
 pinecone-client
 python-dotenv
+pypdf
+wikipedia
 tiktoken
