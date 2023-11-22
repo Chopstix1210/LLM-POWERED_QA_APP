@@ -1,11 +1,18 @@
 import man_find
 import os 
 import pinecone 
+from tqdm import tqdm
+import threading
+import time 
 from dotenv import load_dotenv, find_dotenv
 from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import DirectoryLoader, TextLoader
 from langchain.chat_models import ChatOpenAI
+
+def simulate_long_task():
+     for _ in tqdm(range(50), desc="Reading man page", unit="step"):
+            time.sleep(0.1)
 
 load_dotenv(find_dotenv(), override=True)
 llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0.5, max_tokens=1024)
@@ -78,8 +85,23 @@ def command_message(command, message):
          message = "Sorry, I couldn't find any documentation for the command. I can give you a description of what the command does. Would you like that?"
          return message
 
-def manai(command, message):
+
+def manai_command(command):
     # do the chat model stuff
+    message = f"Can you give me a description of the {command} command As well as a few examples describing how to use it as a beginner, intermediate, and expert commands?"
     response = command_message(command, message)
     
     return response
+
+def manai_message(message):
+    # this is where the user can just send a normal asking message to the chat
+    llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0.5, max_tokens=1024)
+    response = llm(message)
+    response_content = response.content if hasattr(response, 'content') else ''
+    return response_content 
+
+
+def manai_command_message(command, message):
+    # this is where the user can ask a specific question about a command
+    response = command_message(command, message)
+    return response 
