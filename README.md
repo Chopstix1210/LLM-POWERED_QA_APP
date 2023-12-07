@@ -40,6 +40,7 @@ manai ls -m "How to send displayed contents to a file?"
 ## To-Do Tasks (backlog)
 
 - [ ] Find faster way to use Pinecone DB
+- [ ] Create an MYSQL db to store user data to have history chats
 - [x] Create animation for loading 
 - [ ] Create prompts that generate better results for man page 
 - [ ] Find a way to decrease hallucinations 
